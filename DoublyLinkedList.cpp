@@ -14,6 +14,8 @@ void addEnd();
 void printStartEnd();
 void printEndStart();
 void printSize();
+void deleteStart();
+void deleteEnd();
 
 Nodo *start = NULL;
 Nodo *end = NULL;
@@ -33,9 +35,18 @@ int main()
                 addEnd();
                 break;
             case 2:
-                printStartEnd();
+                deleteStart();
                 break;
             case 3:
+                deleteEnd();
+                break;
+            case 4:
+                printStartEnd();
+                break;
+            case 5:
+                printEndStart();
+                break;
+            case 6:
                 printSize();
                 break;
         }
@@ -48,8 +59,11 @@ int menu() {
     printf("\n@---- Menu de Seleção ----@\n");
     printf("0 - Adicionar um Elemento no Inicio da Lista\n");
     printf("1 - Adicionar um Elemento no Fim da Lista\n");
-    printf("2 - Percorrer a Lista do Inicio para o Fim e Printar cada Elemento\n");
-    printf("3 - Printar Quantos Elementos a Lista Tem\n");
+    printf("2 - Deletar um Elemento no Inicio da Lista\n");
+    printf("3 - Deletar um Elemento no Fim da Lista\n");
+    printf("4 - Percorrer a Lista do Inicio para o Fim e Printar cada Elemento\n");
+    printf("5 - Percorrer a Lista do Fim para o Inicio e Printar cada Elemento\n");
+    printf("6 - Printar Quantos Elementos a Lista Tem\n");
     printf("Selecione qual Operacao voce Deseja Fazer na Lista: ");
     
     scanf("%d", &selection);
@@ -134,14 +148,58 @@ void printEndStart() {
         Nodo *elementP = end;
         while (elementP != start){
             printf("%d\n", elementP->value);
-            elementP = elementP->next;
+            elementP = elementP->prev;
         }
         printf("%d\n", start->value);
     }
 }
 
 void printSize() {
-    printf("\nO Tamanho Atual da Lista é de: %d Numeros\n\n", size);
+    printf("\nO Tamanho Atual da Lista é de: %d Numeros\n", size);
+}
+
+void deleteStart() {
+    if(start==NULL) {
+        printf("\nA Lista Esta Vazia\n");
+    }
+    else if(size == 1) {
+        start = NULL;
+        end = NULL;
+        printf("\nUltimo Elemento da Lista Deletado\n");
+        size--;
+    }
+    else{
+        Nodo *elementP = start;
+        Nodo *current;
+        current = elementP->next;
+        current->prev = NULL;
+        start = current;
+        delete elementP;
+        printf("\nElemento no Inicio da Lista Deletado\n");
+        size--;
+    }
+}
+
+void deleteEnd() {
+    if(start==NULL) {
+        printf("\nA Lista Esta Vazia\n");
+    }
+    else if(size == 1) {
+        start = NULL;
+        end = NULL;
+        printf("\nUltimo Elemento da Lista Deletado\n");
+        size--;
+    }
+    else{
+        Nodo *elementP = end;
+        Nodo *current;
+        current = elementP->prev;
+        current->prev = NULL;
+        end = current;
+        delete elementP;
+        printf("\nElemento no Final da Lista Deletado\n");
+        size--;
+    }
 }
 
 
