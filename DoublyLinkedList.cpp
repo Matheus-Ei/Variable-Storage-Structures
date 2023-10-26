@@ -16,6 +16,10 @@ void printEndStart();
 void printSize();
 void deleteStart();
 void deleteEnd();
+void showIndex();
+void deleteSelect();
+void addSelect();
+
 
 Nodo *start = NULL;
 Nodo *end = NULL;
@@ -49,6 +53,14 @@ int main()
             case 6:
                 printSize();
                 break;
+            case 7:
+                showIndex();
+                break;
+            case 8:
+                addSelect();
+                break;
+            case 9:
+                break;
         }
     }
     return 0;
@@ -64,6 +76,9 @@ int menu() {
     printf("4 - Percorrer a Lista do Inicio para o Fim e Printar cada Elemento\n");
     printf("5 - Percorrer a Lista do Fim para o Inicio e Printar cada Elemento\n");
     printf("6 - Printar Quantos Elementos a Lista Tem\n");
+    printf("7 - Printar um Indice para Cada um dos Elementos da Lista\n");
+    printf("8 - Adicionar um Elemento em uma Posicao Especifica\n");
+    printf("9 - Deletar um Elemento que Esta em Uma Posicao Especifica\n");
     printf("Selecione qual Operacao voce Deseja Fazer na Lista: ");
     
     scanf("%d", &selection);
@@ -126,7 +141,7 @@ void addEnd() {
 
 void printStartEnd() {
     if(start == NULL and end == NULL) {
-        printf("A Lista Esta Vazia\n\n");
+        printf("\nA Lista Esta Vazia\n");
     }
     else {
         printf("\n");
@@ -141,7 +156,7 @@ void printStartEnd() {
 
 void printEndStart() {
     if(start == NULL and end == NULL) {
-        printf("A Lista Esta Vazia\n\n");
+        printf("\nA Lista Esta Vazia\n");
     }
     else {
         printf("\n");
@@ -201,5 +216,75 @@ void deleteEnd() {
         size--;
     }
 }
+
+void showIndex() {
+    if(start == NULL and end == NULL) {
+        printf("\nA Lista Esta Vazia\n");
+    }
+    else {
+        printf("\nIndice da Lista\n");
+        int elementCounter = 0;
+        Nodo *elementP = start;
+        while (elementP != end){
+            printf("%d  ---->  %d\n", elementCounter, elementP->value);
+            elementP = elementP->next;
+            elementCounter++;
+        }
+        printf("%d  ---->  %d\n", elementCounter, end->value);
+    }
+}
+
+void addSelect() {
+    int element, position, maxIndex;
+    printf("\nDigite o Numero que Voce Deseja Adicionar na Lista: ");
+    scanf("%d", &element);
+    showIndex();
+    printf("\nDigite o Numero do Indice que Voce Deseja Colocar o Elemento: ");
+    scanf("%d", &position);
+    
+    Nodo *elementAdd;
+    elementAdd = aloc(element);
+    
+    maxIndex = size - 1;
+    
+    if (position > maxIndex){
+        printf("\nEssa Posicao Nao Existe\n");
+    }
+    else {
+        if(start == NULL and end == NULL) {
+            start = elementAdd;
+            end = elementAdd;
+            size++;
+        }
+        else {
+            int elementCounter = 0;
+            Nodo *elementP = start;
+            while (elementCounter != position){
+                elementP = elementP->next;
+                elementCounter++;
+            }
+            
+            Nodo *current;
+            Nodo *prevEl;
+            current = elementP;
+            prevEl = current->prev;
+            
+            elementAdd->next = current;
+            current->prev = elementAdd;
+            
+            prevEl->next = elementAdd;
+            elementAdd->prev = prevEl;
+            
+            printf("\nElemento Adicionado na Posicao com Sucesso\n");
+            size++;
+        }
+        
+    }
+}
+
+void deleteSelect() {
+    
+}
+
 
 
