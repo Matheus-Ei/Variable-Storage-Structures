@@ -60,6 +60,7 @@ int main()
                 addSelect();
                 break;
             case 9:
+                deleteSelect();
                 break;
         }
     }
@@ -264,26 +265,112 @@ void addSelect() {
                 elementCounter++;
             }
             
-            Nodo *current;
-            Nodo *prevEl;
-            current = elementP;
-            prevEl = current->prev;
-            
-            elementAdd->next = current;
-            current->prev = elementAdd;
-            
-            prevEl->next = elementAdd;
-            elementAdd->prev = prevEl;
-            
-            printf("\nElemento Adicionado na Posicao com Sucesso\n");
-            size++;
+            if (position == 0) {
+                Nodo *current;
+                current = start;
+                elementAdd->next = current;
+                current->prev = elementAdd;
+                start = elementAdd;
+                printf("\nElemento Adicionado no Inicio da Lista com Sucesso\n");
+                size++;
+            }
+            else if (position == maxIndex){
+                Nodo *current;
+                current = end;
+                elementAdd->prev = current;
+                current->next = elementAdd;
+                            
+                end = elementAdd;
+                printf("\nElemento Adicionado no Fim da Lista com Sucesso\n");
+                size++;
+            }
+            else {
+                Nodo *current;
+                Nodo *prevEl;
+                current = elementP;
+                prevEl = current->prev;
+                
+                elementAdd->next = current;
+                current->prev = elementAdd;
+                
+                prevEl->next = elementAdd;
+                elementAdd->prev = prevEl;
+                
+                printf("\nElemento Adicionado na Posicao com Sucesso\n");
+                size++;
+            }
         }
         
     }
 }
 
 void deleteSelect() {
+    int element, position, maxIndex;
+    showIndex();
+    printf("\nDigite o Numero do Indice que Voce Deseja Deletar o Elemento: ");
+    scanf("%d", &position);
     
+    maxIndex = size - 1;
+    
+    if (position > maxIndex){
+        printf("\nEssa Posicao Nao Existe\n");
+    }
+    else {
+        if(start == NULL and end == NULL) {
+            printf("\nA Lista Esta Vazia\n");
+        }
+        else if (size == 1) {
+            start == NULL;
+            end == NULL;
+            printf("\nUltimo Elemento da Lista Deletado\nA Lista Não tem Mais Nenhum Elemento\n");
+            size--;
+        }
+        else {
+            int elementCounter = 0;
+            Nodo *elementP = start;
+            while (elementCounter != position){
+                elementP = elementP->next;
+                elementCounter++;
+            }
+            
+            if(elementP == start) {
+                Nodo *current;
+                current = elementP->next;
+                current->prev = NULL;
+                start = current;
+                delete elementP;
+                printf("\nElemento no Inicio da Lista Deletado\n");
+                size--;
+            }
+            else if(elementP == end) {
+                Nodo *current;
+                current = elementP->prev;
+                current->prev = NULL;
+                end = current;
+                delete elementP;
+                printf("\nElemento no Final da Lista Deletado\n");
+                size--;  
+            }
+            else {
+                Nodo *current;
+                Nodo *prevEl;
+                Nodo *nextEl;
+                current = elementP;
+                prevEl = current->prev;
+                nextEl = current->next;
+                
+                prevEl->next = nextEl;
+                nextEl->prev = prevEl;
+            
+                delete current;
+                
+                printf("\nElemento Deletado da Posicao Selecionada com Sucesso\n");
+                size--;
+            }
+            
+        }
+        
+    }
 }
 
 
